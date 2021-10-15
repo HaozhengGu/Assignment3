@@ -35,7 +35,7 @@ function addRevenue() {
     const revText = revInput.value;
     
     const revItem = document.createElement("li");
-    revItem.textContent = revText;
+    revItem.textContent = '+' + revText + ' €';
     revItem.addEventListener("click", removeRevenue);
     revInput.value = "";
     revInput.focus();
@@ -50,7 +50,7 @@ function addExpense() {
     
     const expItem = document.createElement("li");
    
-    expItem.textContent = expText;
+    expItem.textContent = '-' + expText + ' €';
     expItem.addEventListener("click", removeExpense);
     expInput.focus();
   
@@ -69,11 +69,13 @@ function removeExpense(event) {
 }
 
 function getMaxRev(event) {
-    const maxRevenue = document.getElementById("max-revenue");
-    const maxRev = Math.max(maxRevenue);
-    const expText = maxRev.value;
+    //const maxRevenue = document.getElementById("max-revenue");
+    const revList = document.getElementById("revenue-list");
+    const mR = parseFloat(revList);
+    const maxRev = Math.max(mR);
+    const revText = maxRev.value;
     
-    const expItem = document.createElement("li");
+    const revItem = document.createElement("li");
    
-    expItem.textContent = expText;
+    revItem.textContent = revText;
 }
