@@ -4,19 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo Notes</title>
+    <title>Wallet</title>
 </head>
 <body>
     <div id="app">
         <main>
             <div>
-                <input id="todo-note" type="text" name="todo-note">
-                <button id="add-todo">Add ToDo</button>
+                <input id="input" type="number" oninput="setTwoNumberDecimal(this)" name="input">
+                <button id="add-revenue">Add Revenue</button>
+                <button id="add-expense">Add Expense</button>
             </div>
-            <ul id="todo-list">
-                <li>ToDo 1</li>
-                <li>ToDo 2</li>
-                <li>ToDo 3</li>
+            Revenue:
+            <ul id="revenue-list">
+            </ul>
+            Max:
+            <ul id="max-revenue">
+            </ul>
+            Min:
+            <ul id="min-revenue">
+            </ul>
+            Expense:
+            <ul id="expense-list">
+            </ul>
+            Max:
+            <ul id="max-expense">
+            </ul>
+            Min:
+            <ul id="min-expense">
             </ul>
         </main>
     </div>

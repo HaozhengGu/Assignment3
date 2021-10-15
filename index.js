@@ -1,12 +1,79 @@
-const button = document.getElementById("add-todo");
-button.addEventListener("click", handleClick);
+document.addEventListener("DOMContentLoaded", function () {
+    const btnAddRevenue = window.document.getElementById("add-revenue");
+    btnAddRevenue.addEventListener("click", handleClick1);
+    const btnAddExpense = window.document.getElementById("add-expense");
+    btnAddExpense.addEventListener("click", handleClick2);
 
-function handleclick(event) {
-    const input = document.getElementById("todo-note");
-    const list = document.getElementById("todo-list");
+    //const input = document.getElementById("input");
+    //input.addEventListener("keydown", handleKeyDown);
+});
 
-    const item = document.createElement("li");
-    item.textContent = input.nodeValue;
+function setTwoNumberDecimal(event) {
+    const t = event.value;
+    event.value = (t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t;
+}
 
-    list.appendChild(item);
+function handleClick1(event) {
+    addRevenue();
+}
+
+function handleClick2(event) {
+    addExpense();
+}
+
+/*
+function handleKeyDown(event) {
+    if (event.key === "Enter") {
+        add();
+    }
+}
+*/
+
+function addRevenue() {
+    const revList = document.getElementById("revenue-list");
+    const revInput = document.getElementById("input");
+    const revText = revInput.value;
+    
+    const revItem = document.createElement("li");
+    revItem.textContent = revText;
+    revItem.addEventListener("click", removeRevenue);
+    revInput.value = "";
+    revInput.focus();
+    
+    revList.appendChild(revItem);
+}
+
+function addExpense() {
+    const expList = document.getElementById("expense-list");
+    const expInput = document.getElementById("input");
+    const expText = expInput.value;
+    
+    const expItem = document.createElement("li");
+   
+    expItem.textContent = expText;
+    expItem.addEventListener("click", removeExpense);
+    expInput.focus();
+  
+    expList.appendChild(expItem);
+    expInput.value = "";
+}
+
+function removeRevenue(event) {
+    const revList = document.getElementById("revenue-list");
+    revList.removeChild(event.target);
+}
+
+function removeExpense(event) {
+    const expList = document.getElementById("expense-list");
+    expList.removeChild(event.target);
+}
+
+function getMaxRev(event) {
+    const maxRevenue = document.getElementById("max-revenue");
+    const maxRev = Math.max(maxRevenue);
+    const expText = maxRev.value;
+    
+    const expItem = document.createElement("li");
+   
+    expItem.textContent = expText;
 }
