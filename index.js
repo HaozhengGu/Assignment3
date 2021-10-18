@@ -1,3 +1,15 @@
+/*
+let ul = document.getElementsByTagName("ul");
+
+if (sessionStorage.getItem("autosave")) {
+    ul = sessionStorage.getItem("autosave");
+}
+
+ul.addEventListener("change", function() {
+    sessionStorage.setItem("autosave", ul);
+});
+*/
+
 document.addEventListener("DOMContentLoaded", function () {
     const btnAddRevenue = window.document.getElementById("add-revenue");
     btnAddRevenue.addEventListener("click", handleClick1);
@@ -41,6 +53,33 @@ function addRevenue() {
     revInput.focus();
     
     revList.appendChild(revItem);
+    
+    const list = [];
+    
+    for (let i = 0; i < revList.children.length; i++) {
+        const num = parseFloat(revInput.value);
+        list.push(num);
+    }
+    const max = Math.max(list);
+    
+    const maxRev = document.getElementById("max-revenue");
+    const oRevItem = document.createElement("li");
+    oRevItem.textContent = max;
+
+    maxRev.appendChild(oRevItem);
+
+    const s = 0;
+
+    for (let i = 0; i < revList.children.length; i++) {
+        const arr = parseFloat(revInput.value);
+        s += arr[i];
+    }
+    
+    const sumRev = document.getElementById("sum-revenue");
+    const sRevItem = document.createElement("li");
+    sRevItem.textContent = s;
+
+    sumRev.appendChild(sRevItem);
 }
 
 function addExpense() {
@@ -49,13 +88,39 @@ function addExpense() {
     const expText = expInput.value;
     
     const expItem = document.createElement("li");
-   
     expItem.textContent = '-' + expText + ' €';
     expItem.addEventListener("click", removeExpense);
-    expInput.focus();
-  
-    expList.appendChild(expItem);
     expInput.value = "";
+    expInput.focus();
+    
+    expList.appendChild(expItem);
+    
+    const list = [];
+    
+    for (let i = 0; i < expList.children.length; i++) {
+        const num = parseFloat(expInput.value);
+        list.push(num);
+    }
+    const max = Math.max(list);
+    
+    const maxExp = document.getElementById("max-expense");
+    const oExpItem = document.createElement("li");
+    oExpItem.textContent = max;
+
+    maxExp.appendChild(oExpItem);
+
+    const s = 0;
+
+    for (let i = 0; i < expList.children.length; i++) {
+        const arr = parseFloat(expInput.value);
+        s += arr[i];
+    }
+    
+    const sumExp = document.getElementById("sum-expense");
+    const sExpItem = document.createElement("li");
+    sExpItem.textContent = s;
+
+    sumExp.appendChild(sExpItem);
 }
 
 function removeRevenue(event) {
@@ -66,16 +131,4 @@ function removeRevenue(event) {
 function removeExpense(event) {
     const expList = document.getElementById("expense-list");
     expList.removeChild(event.target);
-}
-
-function getMaxRev(event) {
-    //const maxRevenue = document.getElementById("max-revenue");
-    const revList = document.getElementById("revenue-list");
-    const mR = parseFloat(revList);
-    const maxRev = Math.max(mR);
-    const revText = maxRev.value;
-    
-    const revItem = document.createElement("li");
-   
-    revItem.textContent = revText;
 }
