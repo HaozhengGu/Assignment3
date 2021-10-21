@@ -1,15 +1,3 @@
-/*
-let ul = document.getElementsByTagName("ul");
-
-if (sessionStorage.getItem("autosave")) {
-    ul = sessionStorage.getItem("autosave");
-}
-
-ul.addEventListener("change", function() {
-    sessionStorage.setItem("autosave", ul);
-});
-*/
-
 document.addEventListener("DOMContentLoaded", function () {
     const btnAddRevenue = window.document.getElementById("add-revenue");
     btnAddRevenue.addEventListener("click", handleClick1);
@@ -57,27 +45,28 @@ function addRevenue() {
     const list = [];
     
     for (let i = 0; i < revList.children.length; i++) {
-        const num = parseFloat(revInput.value);
+        const num = parseFloat(revList.children[i].textContent); 
         list.push(num);
     }
-    const max = Math.max(list);
+    const max = Math.max(...list);
     
     const maxRev = document.getElementById("max-revenue");
     const oRevItem = document.createElement("li");
-    oRevItem.textContent = max;
+    oRevItem.textContent = '+' + max + ' €';
 
     maxRev.appendChild(oRevItem);
 
-    const s = 0;
+    const s = [];
 
     for (let i = 0; i < revList.children.length; i++) {
-        const arr = parseFloat(revInput.value);
-        s += arr[i];
+        const arr = parseFloat(revList.children[i].textContent);
+        s.push(arr);
     }
-    
+    const sum = eval(s.join("+"));
+
     const sumRev = document.getElementById("sum-revenue");
     const sRevItem = document.createElement("li");
-    sRevItem.textContent = s;
+    sRevItem.textContent = '+' + sum + ' €';
 
     sumRev.appendChild(sRevItem);
 }
@@ -98,27 +87,28 @@ function addExpense() {
     const list = [];
     
     for (let i = 0; i < expList.children.length; i++) {
-        const num = parseFloat(expInput.value);
+        const num = parseFloat(expList.children[i].textContent);
         list.push(num);
     }
-    const max = Math.max(list);
+    const max = Math.min(...list);
     
     const maxExp = document.getElementById("max-expense");
     const oExpItem = document.createElement("li");
-    oExpItem.textContent = max;
+    oExpItem.textContent = max + ' €';
 
     maxExp.appendChild(oExpItem);
 
-    const s = 0;
+    const s = [];
 
     for (let i = 0; i < expList.children.length; i++) {
-        const arr = parseFloat(expInput.value);
-        s += arr[i];
+        const arr = parseFloat(expList.children[i].textContent);
+        s.push(arr);
     }
+    const sum = eval(s.join("+"));
     
     const sumExp = document.getElementById("sum-expense");
     const sExpItem = document.createElement("li");
-    sExpItem.textContent = s;
+    sExpItem.textContent = sum + ' €';
 
     sumExp.appendChild(sExpItem);
 }
