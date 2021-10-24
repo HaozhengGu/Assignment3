@@ -5,33 +5,70 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wallet</title>
+    <link rel="stylesheet" href="index.css" />
 </head>
 <body>
     <div id="app">
         <main>
-            <div>
-                <input id="input" type="number" oninput="setTwoNumberDecimal(this)" name="input">
-                <button id="add-revenue">Add Revenue</button>
-                <button id="add-expense">Add Expense</button>
+            <div class="header">
+                <h1>WALLET</h1>
             </div>
-            Revenues:
-            <ul id="revenue-list">
-            </ul>
-            Maximum:
-            <ul id="max-revenue">
-            </ul>
-            Total:
-            <ul id="sum-revenue">
-            </ul>
-            Expenses:
-            <ul id="expense-list">
-            </ul>
-            Maximum:
-            <ul id="max-expense">
-            </ul>
-            Total:
-            <ul id="sum-expense">
-            </ul>
+            <div class="grid-container">
+                <div class="radio">
+                    <form>
+                        <input id="wages" type="radio" name="rev" value="Wages">Wages
+                        <input id="trades" type="radio" name="rev" value="Trades">Trades
+                        <input id="stocks" type="radio" name="rev" value="Stocks">Stocks
+                        <input id="others-rev" type="radio" name="rev" value="Others">Others
+                    </form>
+                </div>
+                <div class="radio">
+                    <form>
+                        <input id="repasts" type="radio" name="exp" value="Repasts">Repasts
+                        <input id="shopping" type="radio" name="exp" value="Shopping">Shopping
+                        <input id="amusements" type="radio" name="exp" value="Amusements">Amusements
+                        <input id="others-exp" type="radio" name="exp" value="Others">Others
+                    </form>
+                </div>
+                <div class="input">
+                    <input id="revenue-input" class="number" type="number" oninput="setTwoNumberDecimal(this)" name="revenue-input">
+                    <button id="add-revenue" class="button1">Add Revenue</button>
+                </div>
+                <div class="input">
+                    <input id="expense-input" class="number" type="number" oninput="setTwoNumberDecimal(this)" name="expense-input">
+                    <button id="add-expense" class="button2">Add Expense</button>
+                </div>
+                <div class="list">
+                    Revenues:
+                    <ul id="revenue-list" class="rev">
+                    </ul>
+                </div>
+                <div class="list">
+                    Expenses:
+                    <ul id="expense-list" class="exp">
+                    </ul>
+                </div>
+                <div class="max">
+                    Maximum:
+                    <div id="max-revenue" class="rev">
+                    </div>
+                </div>
+                <div class="max">
+                    Maximum:
+                    <div id="max-expense" class="exp">
+                    </div>
+                </div>
+                <div class="sum">
+                    Total:
+                    <div id="sum-revenue" class="rev">
+                    </div>
+                </div>
+                <div class="sum">
+                    Total:
+                    <div id="sum-expense" class="exp">
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     <script src="./index.js"></script>
