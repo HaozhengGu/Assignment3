@@ -1,76 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wallet</title>
-    <link rel="stylesheet" href="index.css" />
-</head>
-<body>
-    <div id="app">
-        <main>
-            <div class="header">
-                <h1>WALLET</h1>
-            </div>
-            <div class="grid-container">
-                <div class="radio">
-                    <form>
-                        <input id="wages" type="radio" name="rev" value="Wages">Wages
-                        <input id="trades" type="radio" name="rev" value="Trades">Trades
-                        <input id="stocks" type="radio" name="rev" value="Stocks">Stocks
-                        <input id="others-rev" type="radio" name="rev" value="Others">Others
-                    </form>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Wallet</title>
+        <link rel="stylesheet" href="index.css" />
+        <script src="https://vuejs.org/js/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <main>
+                <div class="header">
+                    <h1>WALLET</h1>
                 </div>
-                <div class="radio">
-                    <form>
-                        <input id="repasts" type="radio" name="exp" value="Repasts">Repasts
-                        <input id="shopping" type="radio" name="exp" value="Shopping">Shopping
-                        <input id="amusements" type="radio" name="exp" value="Amusements">Amusements
-                        <input id="others-exp" type="radio" name="exp" value="Others">Others
-                    </form>
-                </div>
-                <div class="input">
-                    <input id="revenue-input" class="number" type="number" oninput="setTwoNumberDecimal(this)" name="revenue-input">
-                    <button id="add-revenue" class="button1">Add Revenue</button>
-                </div>
-                <div class="input">
-                    <input id="expense-input" class="number" type="number" oninput="setTwoNumberDecimal(this)" name="expense-input">
-                    <button id="add-expense" class="button2">Add Expense</button>
-                </div>
-                <div class="list">
-                    Revenues:
-                    <ul id="revenue-list" class="rev">
-                    </ul>
-                </div>
-                <div class="list">
-                    Expenses:
-                    <ul id="expense-list" class="exp">
-                    </ul>
-                </div>
-                <div class="max">
-                    Maximum:
-                    <div id="max-revenue" class="rev">
+                <div class="grid-container">
+                    <div class="radio">
+                        <form>
+                            <input id="wages" type="radio" name="rev" value="Wages" v-model="checkedRev">Wages
+                            <input id="trades" type="radio" name="rev" value="Trades" v-model="checkedRev">Trades
+                            <input id="stocks" type="radio" name="rev" value="Stocks" v-model="checkedRev">Stocks
+                            <input id="others-rev" type="radio" name="rev" value="Others" v-model="checkedRev">Others
+                        </form>
+                    </div>
+                    <div class="radio">
+                        <form>
+                            <input id="repasts" type="radio" name="exp" value="Repasts" v-model="checkedExp">Repasts
+                            <input id="shopping" type="radio" name="exp" value="Shopping" v-model="checkedExp">Shopping
+                            <input id="amusements" type="radio" name="exp" value="Amusements" v-model="checkedExp">Amusements
+                            <input id="others-exp" type="radio" name="exp" value="Others" v-model="checkedExp">Others
+                        </form>
+                    </div>
+                    <div class="input">
+                        <input id="revenue-input" class="number" type="number" @input="setTwoNumberDecimalRev" name="revenue-input" v-model="revInput">
+                        <button id="add-revenue" class="button1" @click="addRev">Add Revenue</button>
+                    </div>
+                    <div class="input">
+                        <input id="expense-input" class="number" type="number" @input="setTwoNumberDecimalExp" name="expense-input" v-model="expInput">
+                        <button id="add-expense" class="button2" @click="addExp">Add Expense</button>
+                    </div>
+                    <div class="list">
+                        Revenues:
+                        <ul id="revenue-list" class="rev">
+                            <li v-for="(revItem,revIndex) in revList" @click="removeRev(revIndex)">
+                                <span class="index"> ({{ revIndex+1 }}) </span>
+                                <label> {{ revItem }} </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        Expenses:
+                        <ul id="expense-list" class="exp">
+                            <li v-for="(expItem,expIndex) in expList" @click="removeExp(expIndex)">
+                                <span class="index"> ({{ expIndex+1 }}) </span>
+                                <label> {{ expItem }} </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="max">
+                        Maximum:
+                        <div id="max-revenue" class="rev">
+                            {{ maxRev }} €
+                        </div>
+                    </div>
+                    <div class="max">
+                        Maximum:
+                        <div id="max-expense" class="exp">
+                            {{ maxExp }} €
+                        </div>
+                    </div>
+                    <div class="sum">
+                        Total:
+                        <div id="sum-revenue" class="rev">
+                            {{ sumRev }} €
+                        </div>
+                    </div>
+                    <div class="sum">
+                        Total:
+                        <div id="sum-expense" class="exp">
+                            {{ sumExp }} €
+                        </div>
+                    </div>
+                    <div class="rec" v-show="revList.length!=0">
+                        Statistics: {{ revList.length }} revenue records
+                        <button class="revClear" @click="clearRev">Clear</button>
+                    </div>
+                    <div class="rec" v-show="expList.length!=0">
+                        Statistics: {{ expList.length }} expense records
+                        <button class="expClear" @click="clearExp">Clear</button>
                     </div>
                 </div>
-                <div class="max">
-                    Maximum:
-                    <div id="max-expense" class="exp">
-                    </div>
-                </div>
-                <div class="sum">
-                    Total:
-                    <div id="sum-revenue" class="rev">
-                    </div>
-                </div>
-                <div class="sum">
-                    Total:
-                    <div id="sum-expense" class="exp">
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-    <script src="./index.js"></script>
-</body>
+            </main>
+        </div>
+    </body>
+    <script>
+        const app = new Vue ({
+            el:"#app",
+            data:{
+                revList:[],
+                revInput:'',
+                arrRev:[],
+                maxRev:'',
+                sumRev:'',
+                checkedRev:'',
+                expList:[],
+                expInput:'',
+                arrExp:[],
+                maxExp:'',
+                sumExp:'',
+                checkedExp:'',
+            },
+            methods:{
+                setTwoNumberDecimalRev(e) {
+                    e.target.value = (e.target.value.match(/^\d*(\.?\d{0,2})/g)[0]) || null;
+                    this.revInput = e.target.value;
+                },
+                setTwoNumberDecimalExp(f) {
+                    f.target.value = (f.target.value.match(/^\d*(\.?\d{0,2})/g)[0]) || null;
+                    this.expInput = f.target.value;
+                },
+                addRev:function() {
+                    this.revList.push(this.revInput + " € " + this.checkedRev);
+                    while (this.revInput == null || this.revInput == "") {
+                        alert("Please enter the amount.");
+                        return false;
+                    }
+                    this.arrRev.push(this.revInput);
+                    this.maxRev = Math.max(...this.arrRev);
+                    this.sumRev = eval(this.arrRev.join("+"));
+                    this.revInput = "";
+                },
+                removeRev:function(revIndex) {
+                    this.revList.splice(revIndex,1);
+                },
+                clearRev:function() {
+                    this.revList = [];
+                },
+                addExp:function() {
+                    this.expList.push(this.expInput + " € " + this.checkedExp);
+                    while (this.expInput == null || this.expInput == "") {
+                        alert("Please enter the amount.");
+                        return false;
+                    }
+                    this.arrExp.push(this.expInput);
+                    this.maxExp = Math.max(...this.arrExp);
+                    this.sumExp = eval(this.arrExp.join("+"));
+                    this.expInput = "";
+                },
+                removeExp:function(expIndex) {
+                    this.expList.splice(expIndex,1);
+                },
+                clearExp:function() {
+                    this.expList = [];
+                },
+            }
+        })
+    </script>
 </html>
